@@ -12,6 +12,7 @@ const userSchema = mongoose.Schema(
     },
     name: String,
     lastName: String,
+    todos: [{ title: String, status: String }],
   },
   { timestamps: true }
 );
