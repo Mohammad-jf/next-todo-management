@@ -181,14 +181,18 @@ input {
 
 button {
   border: none;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   display: flex;
   align-items: center;
-  background-color: #d6d6d6;
-  color: #727272;
-  padding: 5px 20px;
+  background-color: #3f79f7;
+  color: #ffffff;
+  padding: 10px 25px;
   border-radius: 10px;
   cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
 }
 
 .profile-form {

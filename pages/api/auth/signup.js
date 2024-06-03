@@ -23,14 +23,14 @@ export default async function handler(req, res) {
         .json({ status: 'failed', message: 'invalid user credential' });
     }
 
-    const existingUser = await User.findone({ email });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res
         .status(422)
         .json({ status: 'failed', message: 'user already exist' });
     }
 
-    const hashedPassword = hashPassword(password);
+    const hashedPassword = await hashPassword(password);
     const user = await User.create({
       email,
       password: hashedPassword,

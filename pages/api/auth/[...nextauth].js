@@ -19,12 +19,12 @@ const authOptions = {
         if (!email || !password) {
           throw new Error('invalid user credentials');
         }
-        const user = User.findOne({ email });
+        const user = await User.findOne({ email });
         if (!user) {
           throw new Error('user does not exist');
         }
 
-        const verifiedPassword = verifyPassword(password, user.password);
+        const verifiedPassword = await verifyPassword(password, user.password);
         if (!verifiedPassword) {
           throw new Error('userName or Password is wrong');
         }

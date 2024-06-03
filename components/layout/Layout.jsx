@@ -23,13 +23,13 @@ const Layout = ({ children }) => {
                         </li>
                         <li>
                             <BiMessageSquareAdd />
-                            <Link href='/'>
+                            <Link href='/add-todo'>
                                 Add Todo
                             </Link>
                         </li>
                         <li>
                             <RxDashboard />
-                            <Link href='/'>
+                            <Link href='/profile'>
                                 Profile
                             </Link>
                         </li>
