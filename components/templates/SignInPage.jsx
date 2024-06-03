@@ -1,6 +1,6 @@
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const SignInPage = () => {
     const { status } = useSession();
@@ -10,7 +10,14 @@ const SignInPage = () => {
     const [userData, setUserData] = useState({
         email: '',
         password: ''
-    })
+    });
+
+
+    useEffect(() => {
+        if (status === 'authenticated') {
+            router.replace('/')
+        }
+    }, [status])
 
 
     const changeHandler = (e) => {
