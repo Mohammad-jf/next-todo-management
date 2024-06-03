@@ -34,6 +34,9 @@ const SignInPage = () => {
             email: '',
             password: ''
         })
+        if (!res.error) {
+            router.replace('/')
+        }
     }
 
     return (
