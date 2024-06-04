@@ -14,13 +14,14 @@ export default async function handler(req, res) {
 
   const session = await getSession({ req });
 
+  
   // check to see if user is loggedIn or not
   if (!session) {
     return res.status(401).json({ status: 'failed', message: 'unAuthorize' });
   }
 
   // check again to see there is a user with this email or not
-  const user = User.findOne({ email: session.user.email });
+  const user = await User.findOne({ email: session.user.email });
   if (!user) {
     return res.status(401).json({ status: 'failed', message: 'unAuthorize' });
   }
