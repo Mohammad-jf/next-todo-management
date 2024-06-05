@@ -8,8 +8,8 @@ import { MdDoneAll } from "react-icons/md";
 import RadioButton from '../element/Radiobutton';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddTodoPage = () => {
     const [title, setTitle] = useState('')
@@ -21,7 +21,7 @@ const AddTodoPage = () => {
         if (status !== 'authenticated') {
             router.replace('/signin')
         }
-    }, [status])
+    }, [status]);
 
     const addHandler = async () => {
         const res = await fetch('/api/todos', {
@@ -34,10 +34,10 @@ const AddTodoPage = () => {
         const data = await res.json()
 
         if (data.status === 'success') {
-            router.replace('/')
+            toast.success('Todo Created')
+            setTitle('');
+            setStatus('todo')
         }
-        setTitle('');
-        setStatus('todo')
     }
 
     return (
@@ -79,7 +79,7 @@ const AddTodoPage = () => {
                         status={todoStatus}
                         onChange={(e) => setStatus(e.target.value)}
                     >
-                        <BsAlignStart />
+                        <FiSettings />
                         In Progress
                     </RadioButton>
 
@@ -91,7 +91,7 @@ const AddTodoPage = () => {
                         status={todoStatus}
                         onChange={(e) => setStatus(e.target.value)}
                     >
-                        <BsAlignStart />
+                        <AiOutlineFileSearch />
                         Review
                     </RadioButton>
 
@@ -103,13 +103,14 @@ const AddTodoPage = () => {
                         value='done'
                         onChange={(e) => setStatus(e.target.value)}
                     >
-                        <BsAlignStart />
+                        <MdDoneAll />
                         Done
                     </RadioButton>
                 </div>
 
                 <button onClick={addHandler}>Add Todo</button>
             </div>
+            <ToastContainer />
         </div>
     )
 }

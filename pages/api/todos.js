@@ -1,5 +1,6 @@
 import User from '@/models/User';
 import connectDB from '@/utils/connectDB';
+import { sortTodos } from '@/utils/sortTodos';
 import { getSession } from 'next-auth/react';
 
 export default async function handler(req, res) {
@@ -14,7 +15,6 @@ export default async function handler(req, res) {
 
   const session = await getSession({ req });
 
-  
   // check to see if user is loggedIn or not
   if (!session) {
     return res.status(401).json({ status: 'failed', message: 'unAuthorize' });
@@ -58,7 +58,10 @@ export default async function handler(req, res) {
             .status(404)
             .json({ status: 'failed', message: 'there is no todos' });
         } else {
-          return res.status(200).json({ status: 'success', todos: user.todos });
+          const sortedTodos = sortTodos(user.todos);
+          return res
+            .status(200)
+            .json({ status: 'success', todos: sortedTodos });
         }
       } catch (error) {
         console.log(error);
