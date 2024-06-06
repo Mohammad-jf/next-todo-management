@@ -19,21 +19,21 @@ const HomePage = () => {
         <div className="home-page">
             <div className="home-page--todo">
                 <p>Todo</p>
-                <Tasks data={todos.todo} />
+                <Tasks data={todos.todo} getTodos={getTodos} next='inProgress' />
             </div>
             <div className="home-page--inProgress">
                 <p>In Progress</p>
-                <Tasks data={todos.inProgress} />
+                <Tasks data={todos.inProgress} getTodos={getTodos} next='review' back='todos' />
 
             </div>
             <div className="home-page--review">
                 <p>Review</p>
-                <Tasks data={todos.review} />
+                <Tasks data={todos.review} getTodos={getTodos} next='done' back='inProgress' />
 
             </div>
             <div className="home-page--done">
                 <p>Done</p>
-                <Tasks data={todos.done} />
+                <Tasks data={todos.done} getTodos={getTodos} back='review' />
             </div>
         </div>
     )

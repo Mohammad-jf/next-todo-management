@@ -70,5 +70,24 @@ export default async function handler(req, res) {
           .json({ status: 'failed', message: 'failed to get todos' });
       }
       break;
+    case 'PATCH':
+      try {
+        const { id, status } = req.body;
+        if (!id || !status) {
+          return res
+            .status(422)
+            .json({ status: 'failed', message: 'invalid credential' });
+        }
+        const result = await User.updateOne(
+          { 'todos._id': id },
+          { $set: { 'todos.$.status': status } }
+        );
+        console.log(result);
+        res.status(200).json({ status: 'success', message: 'todo updated' });
+      } catch (error) {
+        return res
+          .status(422)
+          .json({ status: 'failed', message: 'updating todo failed' });
+      }
   }
 }
