@@ -23,7 +23,7 @@ const HomePage = () => {
             </div>
             <div className="home-page--inProgress">
                 <p>In Progress</p>
-                <Tasks data={todos.inProgress} getTodos={getTodos} next='review' back='todos' />
+                <Tasks data={todos.inProgress} getTodos={getTodos} next='review' back='todo' />
 
             </div>
             <div className="home-page--review">
