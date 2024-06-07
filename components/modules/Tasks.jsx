@@ -3,6 +3,15 @@ import { RiMastodonLine } from 'react-icons/ri'
 
 
 const Tasks = ({ data, next, back, getTodos }) => {
+
+    const updateHandler = async (id, status) => {
+        const res = await fetch('/api/todos', {
+            method: "PATCH",
+            body: JSON.stringify({ id, status })
+        })
+
+        const data = await res.json();
+    }
     return (
         <div className='tasks'>
             {data?.map((item) => (
@@ -12,7 +21,7 @@ const Tasks = ({ data, next, back, getTodos }) => {
                     <h4>{item.title}</h4>
                     <div>
                         {back ? <button className='button-back'>Back</button> : null}
-                        {naxt ? <button className='button-next'>Next</button> : null}
+                        {next ? <button className='button-next'>Next</button> : null}
                     </div>
                 </div>
             ))}
