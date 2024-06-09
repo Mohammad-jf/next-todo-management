@@ -1,6 +1,8 @@
 import React from "react";
 import { RiMastodonLine } from "react-icons/ri";
 import { BiRightArrow, BiLeftArrow } from "react-icons/bi";
+import { FaPencil } from "react-icons/fa6";
+import Link from "next/link";
 
 const Tasks = ({ data, next, back, getTodos }) => {
   const updateHandler = async (id, status) => {
@@ -21,6 +23,9 @@ const Tasks = ({ data, next, back, getTodos }) => {
         <div key={todo._id} className="tasks__card">
           <span className={todo.status}></span>
           <RiMastodonLine />
+          <Link href={`/todos/${todo._id}`}>
+            <FaPencil style={{ marginLeft: "5px" }} />
+          </Link>
           <h4>{todo.title}</h4>
           <div>
             {back ? (
