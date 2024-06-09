@@ -1,11 +1,10 @@
-
 import User from '@/models/User';
 import { verifyPassword } from '@/utils/auth';
 import connectDB from '@/utils/connectDB';
 import { getSession } from 'next-auth/react';
 
 export default async function handler(req, res) {
-  if (req.method !== 'PATCH') return;
+  if (req.method !== 'POST') return;
   try {
     await connectDB();
   } catch (error) {
@@ -46,6 +45,7 @@ export default async function handler(req, res) {
     user.name = name;
     user.lastName = lastName;
     await user.save();
+    res.status(200).json({ status: 'success', message: 'user info completed' });
   } catch (error) {
     console.log(error);
     res
