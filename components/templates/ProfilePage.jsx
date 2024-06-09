@@ -1,54 +1,57 @@
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react'
-import { CgProfile } from 'react-icons/cg'
-import ProfileForm from '../modules/ProfileForm';
-
-
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { CgProfile } from "react-icons/cg";
+import ProfileForm from "../modules/ProfileForm";
 
 const ProfilePage = () => {
-    const { data, status } = useSession();
-    const router = useRouter();
-    const [formData, setFormData] = useState({
-        name: '',
-        lastName: '',
-        password: '',
-    })
+  const { data, status } = useSession();
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    name: "",
+    lastName: "",
+    password: "",
+  });
 
-
-    useEffect(() => {
-        if (status !== 'authenticated') {
-            router.replace('/')
-        }
-    }, [status])
-
-
-    const submitHandler = async () => {
-        const res = await fetch('/api/profile', {
-            method: "POST",
-            body: JSON.stringify({ ...formData }),
-            headers: { "Content-Type": 'application/json' }
-        });
-
-        const data = await res.json();
-        console.log(data)
+  useEffect(() => {
+    if (status !== "authenticated") {
+      router.replace("/");
     }
+  }, [status]);
 
-    return (
-        <div className='profile-form'>
-            <h2>
-                <CgProfile />
-                Profile
-            </h2>
+  const submitHandler = async () => {
+    const res = await fetch("/api/profile", {
+      method: "POST",
+      body: JSON.stringify({ ...formData }),
+      headers: { "Content-Type": "application/json" },
+    });
 
-            <ProfileForm
-                formData={formData}
-                setFormData={setFormData}
-                email={data.user.email}
-                submitHandler={submitHandler} />
+    const data = await res.json();
+    if (data.status === "success") {
+      setFormData({
+        name: "",
+        lastName: "",
+        password: "",
+      });
+      router.replace("/");
+    }
+  };
 
-        </div>
-    )
-}
+  return (
+    <div className="profile-form">
+      <h2>
+        <CgProfile />
+        Profile
+      </h2>
 
-export default ProfilePage
+      <ProfileForm
+        formData={formData}
+        setFormData={setFormData}
+        email={data.user.email}
+        submitHandler={submitHandler}
+      />
+    </div>
+  );
+};
+
+export default ProfilePage;

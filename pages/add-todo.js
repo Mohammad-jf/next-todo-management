@@ -1,4 +1,4 @@
-import AddTodoPage from '@/components/templates/AddTodoPage';
+import AddTodoPage from "@/components/templates/AddTodoPage";
 
 const AddTodo = () => {
   return <AddTodoPage />;
