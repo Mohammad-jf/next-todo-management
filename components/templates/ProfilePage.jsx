@@ -6,7 +6,7 @@ import ProfileForm from "../modules/ProfileForm";
 import ProfileData from "../modules/ProfileData";
 
 const ProfilePage = () => {
-  const { data, status } = useSession();
+  const { status } = useSession();
   const [userData, setUserData] = useState({});
   const router = useRouter();
 
@@ -16,23 +16,25 @@ const ProfilePage = () => {
     password: "",
   });
 
-  useEffect(() => {
-    if (status === "Unauthenticated") {
-      router.push("/signin");
-    }
-  }, [status]);
-
   const getUser = async () => {
     const res = await fetch("/api/profile");
     const data = await res.json();
-    if (data.status === "success") {
+    if (
+      data.status === "success" &&
+      data.data.name &&
+      data.data.lastName &&
+      data.data.email
+    ) {
       setUserData({ ...data.data });
     }
   };
 
   useEffect(() => {
+    if (status !== "authenticated") {
+      router.push("/signin");
+    }
     getUser();
-  }, []);
+  }, [status]);
 
   const submitHandler = async () => {
     const res = await fetch("/api/profile", {

@@ -1,6 +1,7 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 
 const SignInPage = () => {
   const { status } = useSession();
@@ -56,6 +57,9 @@ const SignInPage = () => {
       />
 
       <button onClick={signInHandler}>Sign In</button>
+      <p style={{ marginTop: "5px" }}>
+        create an account? <Link href="/signin">Sign In</Link>
+      </p>
     </div>
   );
 };

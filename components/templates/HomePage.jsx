@@ -5,8 +5,6 @@ import { useRouter } from "next/router";
 
 const HomePage = () => {
   const [todos, setTodos] = useState({});
-  const { status } = useSession();
-  const router = useRouter();
 
   const getTodos = async () => {
     const res = await fetch("/api/todos");
@@ -15,9 +13,6 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    if (status !== "authenticated") {
-      router.replace("/signin");
-    }
     getTodos();
   }, []);
 
