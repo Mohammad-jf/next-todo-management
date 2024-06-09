@@ -6,16 +6,19 @@ import ProfileForm from "../modules/ProfileForm";
 import ProfileData from "../modules/ProfileData";
 
 const ProfilePage = () => {
-  const { status } = useSession();
-  const [userData, setUserData] = useState({});
   const router = useRouter();
+  const { status } = useSession();
 
+  // states
+  const [userData, setUserData] = useState({});
+  const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     lastName: "",
     password: "",
   });
 
+  //get user Data
   const getUser = async () => {
     const res = await fetch("/api/profile");
     const data = await res.json();
@@ -36,6 +39,7 @@ const ProfilePage = () => {
     getUser();
   }, [status]);
 
+  // submit form data
   const submitHandler = async () => {
     const res = await fetch("/api/profile", {
       method: "POST",
@@ -45,6 +49,25 @@ const ProfilePage = () => {
 
     const data = await res.json();
     if (data.status === "success") {
+      setFormData({
+        name: "",
+        lastName: "",
+        password: "",
+      });
+      getUser();
+      setEditing(false);
+    }
+  };
+
+  // update form data for edit
+  const editHandler = (isValid) => {
+    if (isValid) {
+      setFormData({
+        name: userData.name,
+        lastName: userData.lastName,
+        password: "",
+      });
+    } else {
       setFormData({
         name: "",
         lastName: "",
@@ -61,12 +84,36 @@ const ProfilePage = () => {
       </h2>
 
       {userData ? (
-        <ProfileData user={userData} />
+        <>
+          <ProfileData user={userData} />
+          {editing && (
+            <ProfileForm
+              formData={formData}
+              setFormData={setFormData}
+              submitHandler={submitHandler}
+            />
+          )}
+
+          {editing ? (
+            <button
+              style={{ marginTop: "10px" }}
+              onClick={() => (setEditing(false), editHandler(false))}
+            >
+              Cancel
+            </button>
+          ) : (
+            <button
+              style={{ marginTop: "10px" }}
+              onClick={() => (setEditing(true), editHandler(true))}
+            >
+              Edit
+            </button>
+          )}
+        </>
       ) : (
         <ProfileForm
           formData={formData}
           setFormData={setFormData}
-          email={data?.user?.email}
           submitHandler={submitHandler}
         />
       )}
