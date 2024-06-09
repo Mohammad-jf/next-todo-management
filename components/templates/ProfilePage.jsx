@@ -3,10 +3,13 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import ProfileForm from "../modules/ProfileForm";
+import ProfileData from "../modules/ProfileData";
 
 const ProfilePage = () => {
   const { data, status } = useSession();
+  const [userData, setUserData] = useState({});
   const router = useRouter();
+
   const [formData, setFormData] = useState({
     name: "",
     lastName: "",
@@ -14,10 +17,22 @@ const ProfilePage = () => {
   });
 
   useEffect(() => {
-    if (status !== "authenticated") {
-      router.replace("/");
+    if (status === "Unauthenticated") {
+      router.push("/signin");
     }
   }, [status]);
+
+  const getUser = async () => {
+    const res = await fetch("/api/profile");
+    const data = await res.json();
+    if (data.status === "success") {
+      setUserData({ ...data.data });
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   const submitHandler = async () => {
     const res = await fetch("/api/profile", {
@@ -33,7 +48,6 @@ const ProfilePage = () => {
         lastName: "",
         password: "",
       });
-      router.replace("/");
     }
   };
 
@@ -44,12 +58,16 @@ const ProfilePage = () => {
         Profile
       </h2>
 
-      <ProfileForm
-        formData={formData}
-        setFormData={setFormData}
-        email={data.user.email}
-        submitHandler={submitHandler}
-      />
+      {userData ? (
+        <ProfileData user={userData} />
+      ) : (
+        <ProfileForm
+          formData={formData}
+          setFormData={setFormData}
+          email={data?.user?.email}
+          submitHandler={submitHandler}
+        />
+      )}
     </div>
   );
 };
