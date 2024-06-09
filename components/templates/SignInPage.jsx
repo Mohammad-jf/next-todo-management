@@ -57,8 +57,8 @@ const SignInPage = () => {
       />
 
       <button onClick={signInHandler}>Sign In</button>
-      <p style={{ marginTop: "5px" }}>
-        create an account? <Link href="/signin">Sign In</Link>
+      <p style={{ marginTop: "10px" }}>
+        create an account? <Link href="/signup">Sign Up</Link>
       </p>
     </div>
   );
