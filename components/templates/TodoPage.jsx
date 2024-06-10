@@ -92,11 +92,6 @@ const TodoPage = () => {
 
       {editing && (
         <div className="add-form">
-          <h2>
-            <GrAddCircle />
-            Update Todo
-          </h2>
-
           <div className="add-form__input">
             <div className="add-form__input--first">
               <label htmlFor="title">Title</label>
