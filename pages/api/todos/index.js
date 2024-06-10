@@ -46,7 +46,7 @@ export default async function handler(req, res) {
       } catch (error) {
         console.log(error);
         return res
-          .status(422)
+          .status(500)
           .json({ status: "failed", message: "failed to create todo" });
       }
       break;
@@ -86,7 +86,7 @@ export default async function handler(req, res) {
         res.status(200).json({ status: "success", message: "todo updated" });
       } catch (error) {
         return res
-          .status(422)
+          .status(500)
           .json({ status: "failed", message: "updating todo failed" });
       }
   }

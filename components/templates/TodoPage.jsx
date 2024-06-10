@@ -22,6 +22,7 @@ const TodoPage = () => {
     const data = await res.json();
     if (data.status === "success") {
       setTodoData(data.data);
+      console.log(data);
     }
   };
 

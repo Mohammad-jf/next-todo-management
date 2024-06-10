@@ -45,6 +45,8 @@ export default async function handler(req, res) {
           .status(500)
           .json({ status: "failed", message: "cant get todo" });
       }
+
+
       break;
     case "PATCH":
       try {
@@ -56,14 +58,29 @@ export default async function handler(req, res) {
         }
         const result = await User.updateOne(
           { "todos._id": todoId },
-          { $set: { "todos.$.titile": title, "todos.$.status": status } }
+          { $set: { "todos.$.title": title, "todos.$.status": status } }
         );
         console.log(result);
         res.status(200).json({ status: "success", message: "todo updated" });
       } catch (error) {
         return res
-          .status(422)
+          .status(500)
           .json({ status: "failed", message: "updating todo failed" });
+      }
+      break;
+
+    case "DELETE":
+      try {
+        const result = await User.updateOne({ "todos._id": todoId },
+          { $set: { "todos.$": {} } }
+
+        );
+        console.log(result);
+        res.status(200).json({ status: "success", message: "todo deleted" });
+      } catch (error) {
+        return res
+          .status(500)
+          .json({ status: "failed", message: "deleting todo failed" });
       }
   }
 }

@@ -3,6 +3,7 @@ import { RiMastodonLine } from "react-icons/ri";
 import { BiRightArrow, BiLeftArrow } from "react-icons/bi";
 import { FaPencil } from "react-icons/fa6";
 import Link from "next/link";
+import { MdDelete } from "react-icons/md";
 
 const Tasks = ({ data, next, back, getTodos }) => {
   const updateHandler = async (id, status) => {
@@ -17,6 +18,16 @@ const Tasks = ({ data, next, back, getTodos }) => {
     }
   };
 
+  const deleteHandler = async (todoId) => {
+    const res = await fetch(`/api/todos/${todoId}`, {
+      method: "DELETE",
+    });
+    const data = await res.json();
+    if(data.status==='success'){
+      getTodos();
+    }
+  };
+
   return (
     <div className="tasks">
       {data?.map((todo) => (
@@ -26,6 +37,10 @@ const Tasks = ({ data, next, back, getTodos }) => {
           <Link href={`/todos/${todo._id}`}>
             <FaPencil style={{ marginLeft: "5px" }} />
           </Link>
+          <MdDelete
+            style={{ marginLeft: "5px" }}
+            onClick={() => deleteHandler(todo._id)}
+          />
           <h4>{todo.title}</h4>
           <div>
             {back ? (

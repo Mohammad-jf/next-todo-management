@@ -83,7 +83,7 @@ const ProfilePage = () => {
         Profile
       </h2>
 
-      {userData ? (
+      {userData.name ? (
         <>
           <ProfileData user={userData} />
           {editing && (
@@ -93,7 +93,6 @@ const ProfilePage = () => {
               submitHandler={submitHandler}
             />
           )}
-
           {editing ? (
             <button
               style={{ marginTop: "10px" }}
