@@ -25,6 +25,7 @@ export default async function handler(req, res) {
     return res.status(401).json({ status: "failed", message: "unAuthorize" });
   }
 
+
   const { todoId } = req.query;
 
   switch (req.method) {
@@ -45,8 +46,6 @@ export default async function handler(req, res) {
           .status(500)
           .json({ status: "failed", message: "cant get todo" });
       }
-
-
       break;
     case "PATCH":
       try {
@@ -73,10 +72,9 @@ export default async function handler(req, res) {
       try {
         const result = await User.updateOne({ "todos._id": todoId },
           { $set: { "todos.$": {} } }
-
         );
-        console.log(result);
-        res.status(200).json({ status: "success", message: "todo deleted" });
+        console.log(result)
+        return res.status(200).json({ status: "success", message: "todo deleted" });
       } catch (error) {
         return res
           .status(500)
